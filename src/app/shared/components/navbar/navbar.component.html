@@ -1,19 +1,28 @@
-<header class="h-16 bg-white border-b border-border px-6 flex items-center justify-between">
-
-  <h2 class="text-lg font-semibold text-text-dark">
-    {{ title }}
-  </h2>
-
-  <div class="flex items-center gap-4">
-    <input
-      type="text"
-      placeholder="Search..."
-      class="px-3 py-2 rounded-lg border border-border bg-bg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-    />
-
-    <div class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-medium">
-      {{ userName.charAt(0) }}
-    </div>
+<header class="h-14 bg-white border-b border-border px-8 flex items-center justify-between">
+  <div class="flex items-center gap-8">
+    <button class="flex items-center gap-2 pb-3 border-b-2 border-primary text-primary font-medium text-sm">
+      <span>📋</span>
+      Board
+    </button>
+    <button
+      class="flex items-center gap-2 pb-3 border-b-2 border-transparent text-text-gray hover:text-text-dark hover:border-border text-sm transition">
+      <span>📄</span>
+      List
+    </button>
   </div>
-
+  <div class="flex items-center gap-6">
+    <div class="relative">
+      <input type="text" placeholder="Search" class="w-56 pl-9 pr-4 py-1.5 rounded-lg border border-border bg-bg text-sm
+               focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition" />
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-text-gray text-sm">
+        🔍
+      </span>
+    </div>
+    <button class="text-text-gray hover:text-text-dark transition">
+      🔔
+    </button>
+    <button class="text-text-gray hover:text-text-dark transition">
+      ⚙️
+    </button>
+  </div>
 </header>

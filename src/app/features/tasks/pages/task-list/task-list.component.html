@@ -1,1 +1,40 @@
-<p>task-list works!</p>
+<div class="space-y-6">
+
+  <div class="flex justify-between items-center">
+
+    <h2 class="text-xl font-semibold text-text-dark">
+      My Tasks
+    </h2>
+
+    <app-button routerLink="/tasks/create">
+      + New Task
+    </app-button>
+
+  </div>
+
+  <!-- Filtros -->
+  <div class="flex gap-3">
+    <button
+      *ngFor="let f of ['ALL','PENDING','IN_PROGRESS','COMPLETED']"
+      (click)="setFilter(f)"
+      class="px-3 py-1 rounded-lg border border-border text-sm"
+      [class.bg-primary]="filter === f"
+      [class.text-white]="filter === f">
+
+      {{ f }}
+
+    </button>
+  </div>
+
+  <!-- Lista -->
+  <div class="space-y-4">
+
+    <app-task-card
+      *ngFor="let task of tasks$ | async; trackBy: trackById"
+      [task]="task"
+      (delete)="deleteTask(task.id)">
+    </app-task-card>
+
+  </div>
+
+</div>
