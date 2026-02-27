@@ -20,15 +20,15 @@
         'bg-green-100 text-green-700': task.status === 'COMPLETED'
       }">
 
-      {{ task.status }}
+      {{ statusMap[task.status] }}
     </span>
 
     <button (click)="edit.emit()" class="text-primary text-sm">
-      Edit
+      Editar
     </button>
 
     <button (click)="delete.emit()" class="text-red-500 text-sm">
-      Delete
+      Eliminar
     </button>
 
   </div>

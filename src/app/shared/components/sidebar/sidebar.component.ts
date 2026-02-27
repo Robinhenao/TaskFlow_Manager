@@ -18,14 +18,6 @@ export class SidebarComponent {
     private taskService: TaskService
   ) {}
 
-  ngOnInit(): void {
-    this.user$ = this.authService.currentUser$;
-
-    this.tasksCount$ = this.taskService.tasks$.pipe(
-      map(tasks => tasks.length)
-    );
-  }
-
   logout() {
     this.authService.logout();
   }

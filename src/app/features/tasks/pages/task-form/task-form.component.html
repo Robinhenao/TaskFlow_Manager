@@ -9,33 +9,33 @@
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
 
       <app-input
-        label="Title"
+        label="Titulo"
         controlName="title">
       </app-input>
 
       <app-input
-        label="Description"
+        label="Descripcion"
         controlName="description">
       </app-input>
 
       <div class="flex flex-col gap-1">
         <label class="text-sm text-text-gray">
-          Status
+          Estado
         </label>
 
         <select
           formControlName="status"
           class="px-3 py-2 rounded-lg border border-border">
 
-          <option value="PENDING">Pending</option>
-          <option value="IN_PROGRESS">In Progress</option>
-          <option value="COMPLETED">Completed</option>
+          <option value="PENDING">Pendiente</option>
+          <option value="IN_PROGRESS">En Proceso</option>
+          <option value="COMPLETED">Completa</option>
 
         </select>
       </div>
 
-      <app-button>
-        {{ loading ? 'Saving...' : 'Save Task' }}
+      <app-button class="flex justify-center pt-2">
+        {{ loading ? 'Guardando...' : 'Guardar tarea' }}
       </app-button>
 
     </form>

@@ -8,8 +8,18 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskCardComponent {
-  @Input() task: any;
-  
+ @Input() task!: {
+    title: string;
+    description: string;
+    status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
+  };
+
   @Output() edit = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
+
+  readonly statusMap: Record<string, string> = {
+    PENDING: 'Pendiente',
+    IN_PROGRESS: 'En progreso',
+    COMPLETED: 'Completada'
+  };
 }

@@ -7,22 +7,22 @@
   <div class="grid grid-cols-4 gap-6">
 
     <app-stats-card
-      title="Total Tasks"
+      title="Tareas totales"
       [value]="(stats$ | async)?.total || 0">
     </app-stats-card>
 
     <app-stats-card
-      title="Completed"
+      title="Completadas"
       [value]="(stats$ | async)?.completed || 0">
     </app-stats-card>
 
     <app-stats-card
-      title="Pending"
+      title="Pendientes"
       [value]="(stats$ | async)?.pending || 0">
     </app-stats-card>
 
     <app-stats-card
-      title="In Progress"
+      title="En Progreso"
       [value]="(stats$ | async)?.inProgress || 0">
     </app-stats-card>
 
