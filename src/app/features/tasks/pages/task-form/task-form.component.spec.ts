@@ -123,7 +123,7 @@ describe('TaskFormComponent', () => {
     let loadingDuringCall = false;
     taskServiceMock.addTask.and.callFake(() => {
       loadingDuringCall = component.loading;
-      return of(void 0);
+      return of({ id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' } as any);
     });
     fillValidForm(component);
     component.submit();
@@ -131,7 +131,7 @@ describe('TaskFormComponent', () => {
   });
 
   it('should call taskService.addTask with form values', () => {
-    taskServiceMock.addTask.and.returnValue(of(void 0));
+    taskServiceMock.addTask.and.returnValue(of({ id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' } as any));
     fillValidForm(component);
     component.submit();
     expect(taskServiceMock.addTask).toHaveBeenCalledWith({
@@ -142,14 +142,14 @@ describe('TaskFormComponent', () => {
   });
 
   it('should navigate to /dashboard after successful submit', () => {
-    taskServiceMock.addTask.and.returnValue(of(void 0));
+    taskServiceMock.addTask.and.returnValue(of({ id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' } as any));
     fillValidForm(component);
     component.submit();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/dashboard']);
   });
 
   it('should set loading to false after successful submit', () => {
-    taskServiceMock.addTask.and.returnValue(of(void 0));
+    taskServiceMock.addTask.and.returnValue(of({ id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' } as any));
     fillValidForm(component);
     component.submit();
     expect(component.loading).toBeFalse();
