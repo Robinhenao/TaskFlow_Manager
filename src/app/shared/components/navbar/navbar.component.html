@@ -1,19 +1,10 @@
 <header class="h-14 bg-white border-b border-border px-8 flex items-center justify-between">
-  <div class="flex items-center gap-8">
-    <button class="flex items-center gap-2 pb-3 border-b-2 border-primary text-primary font-medium text-sm">
-      <span>📋</span>
-      Board
-    </button>
-    <button
-      class="flex items-center gap-2 pb-3 border-b-2 border-transparent text-text-gray hover:text-text-dark hover:border-border text-sm transition">
-      <span>📄</span>
-      List
-    </button>
+  <div class="flex items-center gap-8 text-sm font-medium">
   </div>
   <div class="flex items-center gap-6">
     <div class="relative">
-      <input type="text" placeholder="Search" class="w-56 pl-9 pr-4 py-1.5 rounded-lg border border-border bg-bg text-sm
-               focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition" />
+      <input #searchInput type="text" placeholder="Search" (input)="onSearch(searchInput.value)" class="w-56 pl-9 pr-4 py-1.5 rounded-lg border border-border bg-bg text-sm
+         focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition" />
       <span class="absolute left-3 top-1/2 -translate-y-1/2 text-text-gray text-sm">
         🔍
       </span>

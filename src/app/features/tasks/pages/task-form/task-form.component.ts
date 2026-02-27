@@ -39,7 +39,7 @@ export class TaskFormComponent {
     this.taskService.addTask(this.form.value as any)
       .subscribe(() => {
         this.loading = false;
-        this.router.navigate(['/tasks']);
+        this.router.navigate(['/dashboard']);
       });
   }
 }

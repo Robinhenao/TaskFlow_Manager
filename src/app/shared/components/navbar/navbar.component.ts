@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -8,6 +8,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
-  @Input() title = "";
-  @Input() userName = '';
+  @Output() search = new EventEmitter<string>();
+  onSearch(value: string): void {
+    this.search.emit(value);
+  }
 }

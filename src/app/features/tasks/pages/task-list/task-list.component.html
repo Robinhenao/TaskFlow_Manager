@@ -1,40 +1,50 @@
-<div class="space-y-6">
+<div class="flex items-center gap-6">
 
-  <div class="flex justify-between items-center">
+  <div class="flex items-center gap-2">
+    <span class="text-sm text-text-gray">Filter:</span>
 
-    <h2 class="text-xl font-semibold text-text-dark">
-      My Tasks
-    </h2>
+    <select
+      (change)="setFilter($any($event.target).value)"
+      class="px-3 py-2 rounded-lg border border-border text-sm bg-white
+             focus:outline-none focus:ring-2 focus:ring-primary">
 
-    <app-button routerLink="/tasks/create">
-      + New Task
-    </app-button>
+      <option *ngFor="let f of filters" [value]="f">
+        {{ f }}
+      </option>
 
+    </select>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="text-sm text-text-gray">Sort:</span>
+
+    <select
+      (change)="setSort($any($event.target).value)"
+      class="px-3 py-2 rounded-lg border border-border text-sm bg-white
+             focus:outline-none focus:ring-2 focus:ring-primary">
+
+      <option *ngFor="let s of sortOptions" [value]="s">
+        {{ s === 'A_Z' ? 'A-Z' : 'Z-A' }}
+      </option>
+
+    </select>
   </div>
 
-  <!-- Filtros -->
-  <div class="flex gap-3">
-    <button
-      *ngFor="let f of ['ALL','PENDING','IN_PROGRESS','COMPLETED']"
-      (click)="setFilter(f)"
-      class="px-3 py-1 rounded-lg border border-border text-sm"
-      [class.bg-primary]="filter === f"
-      [class.text-white]="filter === f">
+</div>
+<div class="mt-6 flex flex-col gap-4">
 
-      {{ f }}
-
-    </button>
-  </div>
-
-  <!-- Lista -->
-  <div class="space-y-4">
-
+  <ng-container *ngIf="tasks$ | async as tasks">
     <app-task-card
-      *ngFor="let task of tasks$ | async; trackBy: trackById"
+      *ngFor="let task of tasks; trackBy: trackById"
       [task]="task"
       (delete)="deleteTask(task.id)">
     </app-task-card>
 
-  </div>
+    <div
+      *ngIf="tasks.length === 0"
+      class="text-center text-text-gray text-sm py-10">
+      No tasks found
+    </div>
+
+  </ng-container>
 
 </div>

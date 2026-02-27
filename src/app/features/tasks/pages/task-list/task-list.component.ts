@@ -4,8 +4,9 @@ import {
   OnInit
 } from '@angular/core';
 import { TaskService, Task } from '../../../../core/services/task.service';
-import { map, Observable } from 'rxjs';
-
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+type TaskFilter = 'ALL' | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
+type SortOption = 'A_Z' | 'Z_A';
 @Component({
   selector: 'app-task-list',
   standalone: false,
@@ -13,37 +14,50 @@ import { map, Observable } from 'rxjs';
   styleUrl: './task-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent {
+  filters: TaskFilter[] = ['ALL', 'PENDING', 'IN_PROGRESS', 'COMPLETED'];
+  sortOptions: SortOption[] = ['A_Z', 'Z_A'];
 
+  private filterSubject = new BehaviorSubject<TaskFilter>('ALL');
+  private sortSubject = new BehaviorSubject<SortOption>('A_Z');
   tasks$!: Observable<Task[]>;
-  filter: 'ALL' | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' = 'ALL';
 
-  constructor(private taskService: TaskService) {}
+  constructor(private readonly taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.loadTasks();
-  }
+    this.tasks$ = combineLatest([
+      this.taskService.filteredTasks$, 
+      this.filterSubject,
+      this.sortSubject
+    ]).pipe(
+      map(([tasks, filter, sort]) => {
+        const filtered =
+          filter === 'ALL'
+            ? tasks
+            : tasks.filter(t => t.status === filter);
 
-  loadTasks() {
-    this.tasks$ = this.taskService.tasks$.pipe(
-      map(tasks =>
-        this.filter === 'ALL'
-          ? tasks
-          : tasks.filter(t => t.status === this.filter)
-      )
+        return [...filtered].sort((a, b) => {
+          return sort === 'A_Z'
+            ? a.title.localeCompare(b.title)
+            : b.title.localeCompare(a.title);
+        });
+      })
     );
   }
 
-  setFilter(filter: any) {
-    this.filter = filter;
-    this.loadTasks();
+  setFilter(filter: TaskFilter): void {
+    this.filterSubject.next(filter);
   }
 
-  deleteTask(id: string) {
+  setSort(sort: SortOption): void {
+    this.sortSubject.next(sort);
+  }
+
+  deleteTask(id: string): void {
     this.taskService.deleteTask(id).subscribe();
   }
 
-  trackById(index: number, task: Task) {
+  trackById(index: number, task: Task): string {
     return task.id;
   }
 }

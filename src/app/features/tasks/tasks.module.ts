@@ -16,6 +16,9 @@ import { SharedModule } from '../../shared/shared.module';
     ReactiveFormsModule,
     SharedModule,
     TasksRoutingModule
+  ],
+  exports: [
+    TaskListComponent
   ]
 })
 export class TasksModule {}

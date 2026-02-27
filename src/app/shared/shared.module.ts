@@ -12,7 +12,7 @@ import { TaskCardComponent } from './components/task-card/task-card.component';
 import { StatsCardComponent } from './components/stats-card/stats-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutComponent } from './components/layout/layout.component';
-import { RouterOutlet } from "@angular/router";
+import { RouterModule, RouterOutlet } from "@angular/router";
 
 
 @NgModule({
@@ -32,7 +32,8 @@ import { RouterOutlet } from "@angular/router";
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterOutlet
+    RouterOutlet,
+    RouterModule
 ],
   exports: [
     InputComponent,
