@@ -3,35 +3,30 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './shared/components/layout/layout.component';
 
 const routes: Routes = [
-{
+  {
     path: 'login',
-    loadChildren: () =>
-      import('./features/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)
   },
 
   {
     path: '',
     component: LayoutComponent,
     children: [
-
       {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
       },
-
       {
         path: 'dashboard',
         loadChildren: () =>
           import('./features/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
-
       {
         path: 'tasks',
         loadChildren: () =>
           import('./features/tasks/tasks.module').then(m => m.TasksModule)
       }
-
     ]
   },
 
@@ -46,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

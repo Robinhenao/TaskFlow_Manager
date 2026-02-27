@@ -30,18 +30,15 @@ export class TaskService {
   );
 
   addTask(task: Omit<Task, 'id'>): Observable<Task> {
-
     const newTask: Task = {
       ...task,
       id: crypto.randomUUID()
     };
-
     const updated = [...this.tasksSubject.value, newTask];
     this.persist(updated);
-
     return of(newTask).pipe(delay(800));
   }
-
+  
   deleteTask(id: string): Observable<void> {
     const updated = this.tasksSubject.value.filter(t => t.id !== id);
     this.persist(updated);

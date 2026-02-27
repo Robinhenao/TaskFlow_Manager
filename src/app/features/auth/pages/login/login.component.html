@@ -1,21 +1,48 @@
 <div class="min-h-screen flex items-center justify-center bg-bg">
   <div class="w-full max-w-md bg-white rounded-xl shadow-card p-8">
-    <h1 class="text-2xl font-semibold text-text-dark mb-6">
-      TaskFlow Login
-    </h1>
+    <h1 class="text-2xl font-semibold text-text-dark mb-6">TaskFlow Login</h1>
+
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
-      <div class="space-y-8">
-        <app-input label="Correo" controlName="email" type="email">
-        </app-input>
-        <app-input label="Contraseña" controlName="password" type="password">
-        </app-input>
+      <div class="space-y-4">
+        <div>
+          <app-input label="Correo" controlName="email" type="email"></app-input>
+          @if (emailControl.touched && emailControl.errors?.['required']) {
+            <p class="text-xs text-red-500 mt-1">El correo es obligatorio</p>
+          }
+          @if (emailControl.touched && emailControl.errors?.['email']) {
+            <p class="text-xs text-red-500 mt-1">Formato de correo inválido</p>
+          }
+        </div>
+        <div>
+          <app-input label="Contraseña" controlName="password" type="password"></app-input>
+          @if (passwordControl.touched) {
+            @if (passwordControl.errors?.['required']) {
+              <p class="text-xs text-red-500 mt-1">La contraseña es obligatoria</p>
+            }
+            @if (passwordControl.errors?.['minlength']) {
+              <p class="text-xs text-red-500 mt-1">Mínimo 8 caracteres</p>
+            }
+            @if (passwordControl.errors?.['noUpperCase']) {
+              <p class="text-xs text-red-500 mt-1">Debe tener al menos una mayúscula</p>
+            }
+            @if (passwordControl.errors?.['noNumber']) {
+              <p class="text-xs text-red-500 mt-1">Debe tener al menos un número</p>
+            }
+            @if (passwordControl.errors?.['noSpecial']) {
+              <p class="text-xs text-red-500 mt-1">Debe tener al menos un caracter especial (!&#64;#$%)</p>
+            }
+          }
+        </div>
       </div>
-      <div *ngIf="error" class="text-sm text-red-500">
-        {{ error }}
-      </div>
+      @if (error()) {
+        <div class="text-sm text-red-500 bg-red-50 p-3 rounded-lg">
+          {{ error() }}
+        </div>
+      }
+
       <div class="flex justify-center pt-2">
-        <app-button>
-          {{ loading ? 'Signing in...' : 'Login' }}
+        <app-button [disabled]="loading()">
+          {{ loading() ? 'Iniciando sesión...' : 'Login' }}
         </app-button>
       </div>
     </form>

@@ -1,7 +1,8 @@
-import {  ChangeDetectionStrategy,Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { strongPasswordValidator } from '../../../../core/validators/password.validator';
 @Component({
   selector: 'app-login',
   standalone: false,
@@ -10,49 +11,50 @@ import { AuthService } from '../../../../core/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-  loading = false;
-  error: string | null = null;
-  form!: FormGroup;
-  
 
-  constructor(
+  loading = signal(false);
+  error = signal<string | null>(null);
+  form!: FormGroup;
+
+   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(4)]]
-  });
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        strongPasswordValidator
+      ]]
+    });
   }
 
-  submit() {
+  get emailControl() { return this.form.get('email')!; }
+  get passwordControl() { return this.form.get('password')!; }
 
+  submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.cdr.markForCheck();
       return;
     }
-
-    this.loading = true;
-    this.error = null;
-
+    this.loading.set(true);
+    this.error.set(null);
     const { email, password } = this.form.value;
 
-    this.authService.login(email!, password!)
-      .subscribe({
-        next: (user) => {
-          this.loading = false;
-
-          if (user.role === 'ADMIN') {
-            this.router.navigate(['/dashboard']);
-          } else {
-            this.router.navigate(['/tasks']);
-          }
-        },
-        error: (err) => {
-          this.loading = false;
-          this.error = err.message;
-        }
-      });
+    this.authService.login(email!, password!).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.error.set(err.message ?? 'Error al iniciar sesión');
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

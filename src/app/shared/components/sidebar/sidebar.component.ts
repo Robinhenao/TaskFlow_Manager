@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy,Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { TaskService } from '../../../core/services/task.service';
 import { map, Observable } from 'rxjs';
@@ -10,14 +10,16 @@ import { map, Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
-   user$!: Observable<any>;
-  tasksCount$!: Observable<number>;
-
+  user$!: Observable<any>;
+  
   constructor(
     private authService: AuthService,
-    private taskService: TaskService
-  ) {}
-
+    private taskService: TaskService,
+  ) { }
+  ngOnInit(): void {
+    this.user$ = this.authService.currentUser$;
+   
+  }
   logout() {
     this.authService.logout();
   }

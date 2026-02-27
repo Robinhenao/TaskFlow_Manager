@@ -1,35 +1,18 @@
 <div class="space-y-6">
-
   <h2 class="text-xl font-semibold text-text-dark">
-    Dashboard Overview
+    Resumen General
   </h2>
-
   <div class="grid grid-cols-4 gap-6">
-
-    <app-stats-card
-      title="Tareas totales"
-      [value]="(stats$ | async)?.total || 0">
+    <app-stats-card title="Tareas totales" [value]="(stats$ | async)?.total || 0">
     </app-stats-card>
-
-    <app-stats-card
-      title="Completadas"
-      [value]="(stats$ | async)?.completed || 0">
+    <app-stats-card title="Completadas" [value]="(stats$ | async)?.completed || 0">
     </app-stats-card>
-
-    <app-stats-card
-      title="Pendientes"
-      [value]="(stats$ | async)?.pending || 0">
+    <app-stats-card title="Pendientes" [value]="(stats$ | async)?.pending || 0">
     </app-stats-card>
-
-    <app-stats-card
-      title="En Progreso"
-      [value]="(stats$ | async)?.inProgress || 0">
+    <app-stats-card title="En Progreso" [value]="(stats$ | async)?.inProgress || 0">
     </app-stats-card>
-
   </div>
-
   <div class="mt-10">
     <app-task-list></app-task-list>
   </div>
-
 </div>
