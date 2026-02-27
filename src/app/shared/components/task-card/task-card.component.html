@@ -1,0 +1,36 @@
+<div class="bg-white rounded-xl border border-border shadow-card p-4 flex justify-between items-center">
+
+  <div>
+    <h4 class="font-medium text-text-dark">
+      {{ task.title }}
+    </h4>
+
+    <p class="text-sm text-text-gray">
+      {{ task.description }}
+    </p>
+  </div>
+
+  <div class="flex items-center gap-3">
+
+    <span
+      class="px-3 py-1 rounded-full text-xs font-medium"
+      [ngClass]="{
+        'bg-yellow-100 text-yellow-700': task.status === 'PENDING',
+        'bg-blue-100 text-blue-700': task.status === 'IN_PROGRESS',
+        'bg-green-100 text-green-700': task.status === 'COMPLETED'
+      }">
+
+      {{ task.status }}
+    </span>
+
+    <button (click)="edit.emit()" class="text-primary text-sm">
+      Edit
+    </button>
+
+    <button (click)="delete.emit()" class="text-red-500 text-sm">
+      Delete
+    </button>
+
+  </div>
+
+</div>

@@ -1,0 +1,21 @@
+<div *ngIf="isOpen"
+     class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-card w-[500px] p-6">
+
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-text-dark">
+        {{ title }}
+      </h3>
+
+      <button (click)="close.emit()" class="text-text-gray hover:text-text-dark">
+        ✕
+      </button>
+    </div>
+
+    <div class="mb-6">
+      <ng-content></ng-content>
+    </div>
+
+  </div>
+</div>

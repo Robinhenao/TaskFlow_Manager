@@ -1,0 +1,21 @@
+<div class="flex flex-col gap-1">
+
+  <label class="text-sm text-text-gray">
+    {{ label }}
+  </label>
+
+  <input
+    [type]="type"
+    [formControlName]="controlName"
+    class="px-3 py-2 rounded-lg border border-border bg-white
+           focus:outline-none focus:ring-2 focus:ring-primary"
+  />
+
+  <div class="text-xs text-red-500"
+       *ngIf="controlContainer.control?.get(controlName)?.invalid &&
+              controlContainer.control?.get(controlName)?.touched">
+
+    Campo inválido
+  </div>
+
+</div>
