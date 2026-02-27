@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 
+
 @NgModule({
   declarations: [
     AppComponent

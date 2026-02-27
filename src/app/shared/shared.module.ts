@@ -11,6 +11,8 @@ import { InputComponent } from './components/input/input.component';
 import { TaskCardComponent } from './components/task-card/task-card.component';
 import { StatsCardComponent } from './components/stats-card/stats-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LayoutComponent } from './components/layout/layout.component';
+import { RouterOutlet } from "@angular/router";
 
 
 @NgModule({
@@ -24,16 +26,24 @@ import { ReactiveFormsModule } from '@angular/forms';
     ModalComponent,
     InputComponent,
     TaskCardComponent,
-    StatsCardComponent
+    StatsCardComponent,
+    LayoutComponent
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule  
-  ],
+    ReactiveFormsModule,
+    RouterOutlet
+],
   exports: [
     InputComponent,
     TaskCardComponent,
-    StatsCardComponent
+    StatsCardComponent,
+    CardComponent,
+    ButtonComponent,
+    NavbarComponent,
+    SidebarComponent,
+    ModalComponent,
+    LayoutComponent
   ]
 })
 export class SharedModule { }
