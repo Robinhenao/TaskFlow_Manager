@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TaskFormComponent } from './task-form.component';
 import { TaskService } from '../../../../core/services/task.service';
@@ -11,6 +12,8 @@ describe('TaskFormComponent', () => {
   let fixture: ComponentFixture<TaskFormComponent>;
   let taskServiceMock: jasmine.SpyObj<TaskService>;
   let routerSpy: jasmine.SpyObj<Router>;
+
+  const fakeTask = { id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' as const };
 
   beforeEach(async () => {
     taskServiceMock = jasmine.createSpyObj('TaskService', ['addTask']);
@@ -22,7 +25,8 @@ describe('TaskFormComponent', () => {
       providers: [
         { provide: TaskService, useValue: taskServiceMock },
         { provide: Router, useValue: routerSpy }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA] // ✅ ignora app-input, app-button y app-card
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskFormComponent);
@@ -123,7 +127,7 @@ describe('TaskFormComponent', () => {
     let loadingDuringCall = false;
     taskServiceMock.addTask.and.callFake(() => {
       loadingDuringCall = component.loading;
-      return of({ id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' } as any);
+      return of(fakeTask);
     });
     fillValidForm(component);
     component.submit();
@@ -131,7 +135,7 @@ describe('TaskFormComponent', () => {
   });
 
   it('should call taskService.addTask with form values', () => {
-    taskServiceMock.addTask.and.returnValue(of({ id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' } as any));
+    taskServiceMock.addTask.and.returnValue(of(fakeTask));
     fillValidForm(component);
     component.submit();
     expect(taskServiceMock.addTask).toHaveBeenCalledWith({
@@ -142,14 +146,14 @@ describe('TaskFormComponent', () => {
   });
 
   it('should navigate to /dashboard after successful submit', () => {
-    taskServiceMock.addTask.and.returnValue(of({ id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' } as any));
+    taskServiceMock.addTask.and.returnValue(of(fakeTask));
     fillValidForm(component);
     component.submit();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/dashboard']);
   });
 
   it('should set loading to false after successful submit', () => {
-    taskServiceMock.addTask.and.returnValue(of({ id: '1', title: 'Fix bug', description: 'Details here', status: 'PENDING' } as any));
+    taskServiceMock.addTask.and.returnValue(of(fakeTask));
     fillValidForm(component);
     component.submit();
     expect(component.loading).toBeFalse();

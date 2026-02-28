@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { LoginComponent } from './login.component';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -26,7 +26,8 @@ describe('LoginComponent', () => {
         { provide: AuthService, useValue: authServiceMock },
         { provide: Router, useValue: routerSpy },
         ChangeDetectorRef
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA] // ✅ ignora app-input y app-button
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
@@ -130,14 +131,12 @@ describe('LoginComponent', () => {
   };
 
   it('should set loading to true while submitting', () => {
-    authServiceMock.login.and.returnValue(of(fakeUser as any));
-    fillValidForm(component);
-    // Capturamos loading antes de que el observable resuelva sincrónicamente
     let loadingDuringCall = false;
     authServiceMock.login.and.callFake(() => {
       loadingDuringCall = component.loading();
       return of(fakeUser as any);
     });
+    fillValidForm(component);
     component.submit();
     expect(loadingDuringCall).toBeTrue();
   });
